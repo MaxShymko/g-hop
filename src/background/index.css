@@ -1,0 +1,11 @@
+[data-gsk-ext-l1] > * {
+  transition: padding-left 0.2s;
+}
+
+[data-gsk-ext-l1]:focus-visible > * {
+  padding-left: 8px;
+}
+
+[data-gsk-ext-l1]:focus-visible > h3 {
+  text-decoration: underline;
+}
