@@ -88,9 +88,11 @@ document.addEventListener("keydown", (event) => {
 
   if (event.code === "KeyJ") {
     focusNext();
+    event.preventDefault();
   }
   if (event.code === "KeyK") {
     focusPrev();
+    event.preventDefault();
   }
 });
 
