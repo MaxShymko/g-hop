@@ -1,4 +1,4 @@
-const MAIN_CONTENT_SELECTOR = "#center_col";
+const MAIN_CONTENT_SELECTOR = "#rcnt";
 
 const getH3Links = () =>
   [...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a > h3`)].map(
