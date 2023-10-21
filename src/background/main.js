@@ -1,16 +1,22 @@
-const MAIN_CONTENT_SELECTOR = "#rcnt";
+const MAIN_CONTENT_SELECTOR = "[role=main]";
 
 const getH3Links = () =>
   [...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a > h3`)].map(
-    (node) => node.parentElement
+    (node) => node.parentElement,
   );
 
-const getPeopleAlsoAskLinks = (expanded = false) =>
-  [
+const getPeopleAlsoAskLinks = (expanded = false) => {
+  const buttonContainers = [
     ...document.body.querySelectorAll(
-      `${MAIN_CONTENT_SELECTOR} div[role="button"][aria-expanded=${expanded}] + div a > h3`
+      `${MAIN_CONTENT_SELECTOR} div > div[role="button"][aria-expanded=${expanded}]`,
     ),
-  ].map((node) => node.parentElement);
+  ].map((node) => node.parentElement.parentElement);
+
+  return buttonContainers
+    .map((node) => node.querySelector("a > h3"))
+    .map((node) => node?.parentElement)
+    .filter(Boolean);
+};
 
 const getL1Links = () => {
   const h3Links = getH3Links();
@@ -41,7 +47,7 @@ const focusNext = () => {
   const l1Links = getL1Links();
 
   const currentL1LinkElementIndex = l1Links.findIndex(
-    (l1Link) => l1Link === document.activeElement
+    (l1Link) => l1Link === document.activeElement,
   );
 
   let currentElement;
@@ -59,7 +65,7 @@ const focusPrev = () => {
   const l1Links = getL1Links();
 
   const currentL1LinkElementIndex = l1Links.findIndex(
-    (l1Link) => l1Link === document.activeElement
+    (l1Link) => l1Link === document.activeElement,
   );
 
   let currentElement;
@@ -75,25 +81,27 @@ const focusPrev = () => {
 
 const focusFirst = () => {
   const firstLink = document.body.querySelector(
-    `${MAIN_CONTENT_SELECTOR} a > h3`
+    `${MAIN_CONTENT_SELECTOR} a > h3`,
   )?.parentElement;
   firstLink?.setAttribute("data-gsk-ext-l1", "true");
   firstLink?.focus();
 };
 
 document.addEventListener("keydown", (event) => {
-  if (document.activeElement.tagName === "INPUT") {
+  if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
     return;
   }
 
   if (event.code === "KeyJ") {
     focusNext();
-    event.preventDefault();
   }
   if (event.code === "KeyK") {
     focusPrev();
-    event.preventDefault();
   }
+  if (event.code === "KeyO") {
+    document.activeElement.click();
+  }
+  event.preventDefault();
 });
 
 focusFirst();
