@@ -43,7 +43,7 @@ const getNearestElement = (anchor, elements) => {
   return nearestElement;
 };
 
-const focusNext = () => {
+const focusSibling = (offset) => {
   const l1Links = getL1Links();
 
   const currentL1LinkElementIndex = l1Links.findIndex(
@@ -55,25 +55,7 @@ const focusNext = () => {
   if (currentL1LinkElementIndex === -1) {
     currentElement = getNearestElement(document.activeElement, l1Links);
   } else {
-    currentElement = l1Links[currentL1LinkElementIndex + 1];
-  }
-
-  currentElement?.focus();
-};
-
-const focusPrev = () => {
-  const l1Links = getL1Links();
-
-  const currentL1LinkElementIndex = l1Links.findIndex(
-    (l1Link) => l1Link === document.activeElement,
-  );
-
-  let currentElement;
-
-  if (currentL1LinkElementIndex === -1) {
-    currentElement = getNearestElement(document.activeElement, l1Links);
-  } else {
-    currentElement = l1Links[currentL1LinkElementIndex - 1];
+    currentElement = l1Links[currentL1LinkElementIndex + offset];
   }
 
   currentElement?.focus();
@@ -93,10 +75,10 @@ document.addEventListener("keydown", (event) => {
   }
 
   if (event.code === "KeyJ") {
-    focusNext();
+    focusSibling(1);
   }
   if (event.code === "KeyK") {
-    focusPrev();
+    focusSibling(-1);
   }
   if (event.code === "KeyO") {
     document.activeElement.click();
