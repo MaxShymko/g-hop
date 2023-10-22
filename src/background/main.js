@@ -1,4 +1,4 @@
-const MAIN_CONTENT_SELECTOR = "[role=main]";
+const MAIN_CONTENT_SELECTOR = "#main";
 
 const getH3Links = () =>
   [...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a > h3`)].map(
@@ -21,12 +21,20 @@ const getPeopleAlsoAskLinks = (expanded = false) => {
 const getL1Links = () => {
   const h3Links = getH3Links();
   const peopleAlsoAskLinks = getPeopleAlsoAskLinks();
-  return h3Links
-    .filter((h3Link) => peopleAlsoAskLinks.indexOf(h3Link) < 0)
-    .map((element) => {
-      element.setAttribute("data-gsk-ext-l1", "true");
-      return element;
+
+  // filter out unnecessary links
+  const l1Links = h3Links
+    .filter((e) => peopleAlsoAskLinks.indexOf(e) < 0)
+    .filter((e) => {
+      try {
+        const includesGoogle = new URL(e.href).host.includes("google");
+        return !includesGoogle;
+      } catch (e) {
+        return false;
+      }
     });
+
+  return l1Links;
 };
 
 const getNearestElement = (anchor, elements) => {
@@ -43,8 +51,11 @@ const getNearestElement = (anchor, elements) => {
   return nearestElement;
 };
 
-const focusSibling = (offset) => {
+const focusL1Link = (offset) => {
   const l1Links = getL1Links();
+
+  // mark all links with attribute to apply styles
+  l1Links.forEach((element) => element.setAttribute("data-gsk-ext-l1", "true"));
 
   const currentL1LinkElementIndex = l1Links.findIndex(
     (l1Link) => l1Link === document.activeElement,
@@ -61,22 +72,14 @@ const focusSibling = (offset) => {
   currentElement?.focus();
 };
 
-const focusFirst = () => {
-  const firstLink = document.body.querySelector(
-    `${MAIN_CONTENT_SELECTOR} a > h3`,
-  )?.parentElement;
-  firstLink?.setAttribute("data-gsk-ext-l1", "true");
-  firstLink?.focus();
-};
-
 document.addEventListener("keydown", (event) => {
   if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
     return;
   }
 
   const keyHandlers = {
-    KeyJ: () => focusSibling(1),
-    KeyK: () => focusSibling(-1),
+    KeyJ: () => focusL1Link(1),
+    KeyK: () => focusL1Link(-1),
     KeyO: () => document.activeElement.click(),
   };
 
@@ -89,4 +92,4 @@ document.addEventListener("keydown", (event) => {
   event.preventDefault();
 });
 
-focusFirst();
+focusL1Link(0);
