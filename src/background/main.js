@@ -74,15 +74,18 @@ document.addEventListener("keydown", (event) => {
     return;
   }
 
-  if (event.code === "KeyJ") {
-    focusSibling(1);
+  const keyHandlers = {
+    KeyJ: () => focusSibling(1),
+    KeyK: () => focusSibling(-1),
+    KeyO: () => document.activeElement.click(),
+  };
+
+  const handler = keyHandlers[event.code];
+  if (!handler) {
+    return;
   }
-  if (event.code === "KeyK") {
-    focusSibling(-1);
-  }
-  if (event.code === "KeyO") {
-    document.activeElement.click();
-  }
+
+  handler();
   event.preventDefault();
 });
 
