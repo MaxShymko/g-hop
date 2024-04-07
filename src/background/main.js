@@ -1,9 +1,9 @@
 const MAIN_CONTENT_SELECTOR = "#main";
 
 const getH3Links = () =>
-  [...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a > h3`)].map(
-    (node) => node.parentElement,
-  );
+  [
+    ...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a[href] > h3`),
+  ].map((node) => node.parentElement);
 
 const getPeopleAlsoAskLinks = (expanded = false) => {
   const buttonContainers = [
@@ -23,16 +23,7 @@ const getL1Links = () => {
   const peopleAlsoAskLinks = getPeopleAlsoAskLinks();
 
   // filter out unnecessary links
-  const l1Links = h3Links
-    .filter((e) => peopleAlsoAskLinks.indexOf(e) < 0)
-    .filter((e) => {
-      try {
-        const includesGoogle = new URL(e.href).host.includes("google");
-        return !includesGoogle;
-      } catch (e) {
-        return false;
-      }
-    });
+  const l1Links = h3Links.filter((e) => peopleAlsoAskLinks.indexOf(e) < 0);
 
   return l1Links;
 };
@@ -70,6 +61,7 @@ const focusL1Link = (offset) => {
   }
 
   currentElement?.focus();
+  // TODO: scroll into view
 };
 
 document.addEventListener("keydown", (event) => {
