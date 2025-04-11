@@ -44,6 +44,19 @@ const getNearestElement = (anchor, elements) => {
   return nearestElement;
 };
 
+const focusWithOffset = (element) => {
+  element.focus();
+  const offset = 50;
+  const rect = element.getBoundingClientRect();
+  const topOffset = rect.top - offset;
+  const bottomOffset = rect.bottom + offset - window.innerHeight;
+  if (topOffset < 0) {
+    window.scrollBy({ top: topOffset });
+  } else if (bottomOffset > 0) {
+    window.scrollBy({ top: bottomOffset });
+  }
+};
+
 const focusL1Link = (offset) => {
   const l1Links = getL1Links();
 
@@ -62,8 +75,9 @@ const focusL1Link = (offset) => {
     currentElement = l1Links[currentL1LinkElementIndex + offset];
   }
 
-  currentElement?.focus();
-  // TODO: scroll into view
+  if (currentElement) {
+    focusWithOffset(currentElement);
+  }
 };
 
 document.addEventListener("keydown", (event) => {
