@@ -23,7 +23,9 @@ const getL1Links = () => {
   const peopleAlsoAskLinks = getPeopleAlsoAskLinks();
 
   // filter out unnecessary links
-  const l1Links = h3Links.filter((e) => peopleAlsoAskLinks.indexOf(e) < 0);
+  const l1Links = h3Links.filter(
+    (e) => e.checkVisibility() && peopleAlsoAskLinks.indexOf(e) < 0,
+  );
 
   return l1Links;
 };
