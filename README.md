@@ -16,7 +16,7 @@
 
 ### From Chrome Web Store (recommended)
 
-[Install GHop from the Chrome Web Store](#)
+[Install GHop from the Chrome Web Store](https://chromewebstore.google.com/detail/ghop/ikidoogaefjdndaheblpaahpjonndhki)
 
 ### Manual Installation (dev mode)
 
