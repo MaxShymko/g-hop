@@ -45,8 +45,8 @@ const getNearestElement = (anchor, elements) => {
 };
 
 const focusWithOffset = (element) => {
-  element.focus();
-  const offset = 50;
+  element.focus({ preventScroll: true });
+  const offset = 200;
   const rect = element.getBoundingClientRect();
   const topOffset = rect.top - offset;
   const bottomOffset = rect.bottom + offset - window.innerHeight;
