@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "GHop",
   "description": "Keyboard navigation for Google Search. Use J and K to move through search results without touching your mouse.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": {
     "128": "assets/icon128.png",
     "48": "assets/icon48.png",
