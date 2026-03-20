@@ -2,12 +2,12 @@ const MAIN_CONTENT_SELECTOR = "#main";
 
 const getH3Links = () =>
   [
-    ...document.body.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a[href] > h3`),
+    ...document.querySelectorAll(`${MAIN_CONTENT_SELECTOR} a[href] > h3`),
   ].map((node) => node.parentElement);
 
 const getPeopleAlsoAskLinks = (expanded = false) => {
   const buttonContainers = [
-    ...document.body.querySelectorAll(
+    ...document.querySelectorAll(
       `${MAIN_CONTENT_SELECTOR} div > div[role="button"][aria-expanded=${expanded}]`,
     ),
   ].map((node) => node.parentElement.parentElement);
@@ -31,6 +31,10 @@ const getL1Links = () => {
 };
 
 const getNearestElement = (anchor, elements) => {
+  if (!anchor || elements.length === 0) {
+    return null;
+  }
+
   const { x, y } = anchor.getBoundingClientRect();
   const nearestElement = elements
     .map((element) => {
@@ -40,7 +44,7 @@ const getNearestElement = (anchor, elements) => {
         distance: Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2)),
       };
     })
-    .sort((a, b) => a.distance - b.distance)[0].element;
+    .sort((a, b) => a.distance - b.distance)[0]?.element;
   return nearestElement;
 };
 
@@ -60,6 +64,10 @@ const focusWithOffset = (element) => {
 const focusL1Link = (offset) => {
   const l1Links = getL1Links();
 
+  if (l1Links.length === 0) {
+    return false;
+  }
+
   // mark all links with attribute to apply styles
   l1Links.forEach((element) => element.setAttribute("data-gsk-ext-l1", "true"));
 
@@ -77,7 +85,10 @@ const focusL1Link = (offset) => {
 
   if (currentElement) {
     focusWithOffset(currentElement);
+    return true;
   }
+
+  return false;
 };
 
 document.addEventListener("keydown", (event) => {
@@ -100,4 +111,21 @@ document.addEventListener("keydown", (event) => {
   event.preventDefault();
 });
 
-focusL1Link(0);
+const focusFirstLinkWhenReady = () => {
+  if (focusL1Link(0)) {
+    return;
+  }
+
+  const observer = new MutationObserver(() => {
+    if (focusL1Link(0)) {
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+};
+
+focusFirstLinkWhenReady();
