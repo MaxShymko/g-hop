@@ -1,39 +1,42 @@
 <div align="center">
     <img height="128" alt="GHop Logo" src="readmeIcon.png" />
     <h1>GHop</h1>
-    <p><strong>Simple keyboard navigation for Google Search</strong></p>
+    <p><strong>Keyboard shortcuts for Google Search</strong></p>
 </div>
 
-## Features
+GHop is a small Chrome extension that lets you move through Google Search results without reaching for the mouse.
 
-- Navigate Google search results using your keyboard
-- `J` — move to the next link
-- `K` — move to the previous link
-- `O` — open active link
-- Lightweight and minimal
+Shortcuts:
+
+- `J` moves to the next result
+- `K` moves to the previous result
+- `O` opens the focused result
+
+It also keeps the focused result in view and adds a small visual offset so it is easier to follow where you are on the page.
 
 ## Installation
 
-### From Chrome Web Store (recommended)
+### Chrome Web Store
 
 [Install GHop from the Chrome Web Store](https://chromewebstore.google.com/detail/ghop/ikidoogaefjdndaheblpaahpjonndhki)
 
-### Manual Installation (dev mode)
+### Load unpacked
 
 1. Clone or download this repository
-2. Open `chrome://extensions` in your browser
-3. Enable **Developer mode** (top right)
-4. Click **Load unpacked** and select the extension folder
-5. Done! Visit [google.com](https://www.google.com) and start using `J`/`K` to navigate
+2. Open `chrome://extensions`
+3. Turn on `Developer mode`
+4. Click `Load unpacked`
+5. Select this folder
+
+Then open Google Search and use `J`, `K`, and `O`.
 
 ## Why?
 
-Because searching should be fast — and your hands are already on the keyboard.
+I wanted a simple way to move through search results from the keyboard, similar to what a lot of other tools already do in lists and editors.
 
 ## Contributing
 
-Pull requests, feature ideas, and feedback are welcome!  
-Feel free to open an issue or fork the project.
+Issues and pull requests are welcome.
 
 ## License
 
