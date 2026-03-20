@@ -1,4 +1,5 @@
 const MAIN_CONTENT_SELECTOR = "#main";
+const ANIMATIONS_ENABLED_ATTRIBUTE = "data-gsk-ext-animations";
 
 const getH3Links = () =>
   [
@@ -97,8 +98,14 @@ document.addEventListener("keydown", (event) => {
   }
 
   const keyHandlers = {
-    KeyJ: () => focusL1Link(1),
-    KeyK: () => focusL1Link(-1),
+    KeyJ: () => {
+      document.documentElement.setAttribute(ANIMATIONS_ENABLED_ATTRIBUTE, "true");
+      focusL1Link(1);
+    },
+    KeyK: () => {
+      document.documentElement.setAttribute(ANIMATIONS_ENABLED_ATTRIBUTE, "true");
+      focusL1Link(-1);
+    },
     KeyO: () => document.activeElement.click(),
   };
 

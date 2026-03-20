@@ -1,4 +1,4 @@
-[data-gsk-ext-l1] > * {
+[data-gsk-ext-animations] [data-gsk-ext-l1] > * {
   transition: padding-left 0.2s;
 }
 
